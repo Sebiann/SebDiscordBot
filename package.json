@@ -1,0 +1,31 @@
+{
+  "name": "SebDiscordBot",
+  "version": "1.1.0",
+  "description": "this is a Discord bot.",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node .",
+    "test": "npx eslint .",
+    "preversion": "npm test",
+    "postversion": "git add ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sebiann/SebDiscordBot.git"
+  },
+  "author": "Sebiann",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Sebiann/SebDiscordBot/issues"
+  },
+  "homepage": "https://github.com/Sebiann/SebDiscordBot#readme",
+  "dependencies": {
+    "better-sqlite3": "^5.4.3",
+    "discord.js": "^11.4.2",
+    "dotenv": "^8.2.0",
+    "node-gyp": "^6.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0"
+  }
+}

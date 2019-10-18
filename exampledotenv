@@ -1,0 +1,4 @@
+TOKEN=<discord bot token>
+PREFIX=<prefix for bot commands>
+EMBED_COLOUR=<hex colour code>
+OWNER=<owner discord id>
