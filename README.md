@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.com/Sebiann/SebDiscordBot.svg?branch=master)](https://travis-ci.com/Sebiann/SebDiscordBot)
-# SebDiscordBot
+[![Build Status](https://travis-ci.com/Sebiann/SebDiscordBot.svg?branch=master)](https://travis-ci.com/Sebiann/SebDiscordBot)# SebDiscordBot
 This is a small discord bot
 
 ## Setup
