@@ -21,23 +21,23 @@ client.on('ready',()=>{
   console.log(`Logged in and ready to be used.. use "${process.env.PREFIX}help".`)
   const tableelytraone = sql.prepare('SELECT count(*) FROM sqlite_master WHERE type=\'table\' AND name = \'elytraone\';').get()
   if (!tableelytraone['count(*)']) {
-    sql.prepare('CREATE TABLE elytraone (id TEXT PRIMARY KEY, user TEXT, rank INTEGER, time INTEGER);').run()
+    sql.prepare('CREATE TABLE elytraone (id INTEGER PRIMARY KEY AUTOINCREMENT, user TEXT, rank INTEGER, time INTEGER, proof TEXT);').run()
     sql.prepare('CREATE UNIQUE INDEX idx_elytraone_id ON elytraone (id);').run()
     sql.pragma('synchronous = 1')
     sql.pragma('journal_mode = wal')
   }
   client.getElytraOne = sql.prepare('SELECT * FROM elytraone WHERE user = ?')
-  client.setElytraOne = sql.prepare('INSERT OR REPLACE INTO elytraone (id, user, rank, time) VALUES (@id, @user, @rank, @time);')
+  client.setElytraOne = sql.prepare('INSERT OR REPLACE INTO elytraone (id, user, rank, time, proof) VALUES (@id, @user, @rank, @time, @proof);')
 
   const tablefunhouseone = sql.prepare('SELECT count(*) FROM sqlite_master WHERE type=\'table\' AND name = \'funhouseone\';').get()
   if (!tablefunhouseone['count(*)']) {
-    sql.prepare('CREATE TABLE funhouseone (id TEXT PRIMARY KEY, user TEXT, rank INTEGER, time INTEGER);').run()
+    sql.prepare('CREATE TABLE funhouseone (id INTEGER PRIMARY KEY AUTOINCREMENT, user TEXT, rank INTEGER, time INTEGER, proof TEXT);').run()
     sql.prepare('CREATE UNIQUE INDEX idx_funhouseone_id ON funhouseone (id);').run()
     sql.pragma('synchronous = 1')
     sql.pragma('journal_mode = wal')
   }
   client.getFunhouseOne = sql.prepare('SELECT * FROM funhouseone WHERE user = ?')
-  client.setFunhouseOne = sql.prepare('INSERT OR REPLACE INTO funhouseone (id, user, rank, time) VALUES (@id, @user, @rank, @time);')
+  client.setFunhouseOne = sql.prepare('INSERT OR REPLACE INTO funhouseone (id, user, rank, time, proof) VALUES (@id, @user, @rank, @time, @proof);')
 })
 
 client.on('message', message => {
@@ -50,7 +50,6 @@ client.on('message', message => {
     || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))
 
   if (!command) return
-
   if (command.guildOnly && message.channel.type !== 'text') {
     return message.reply('I can\'t execute that command inside DMs!')
       .then(msg => {
