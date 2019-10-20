@@ -27,7 +27,7 @@ client.on('ready',()=>{
     sql.pragma('journal_mode = wal')
   }
   client.getElytraOne = sql.prepare('SELECT * FROM elytraone WHERE user = ?')
-  client.setElytraOne = sql.prepare('INSERT OR REPLACE INTO elytraone (id, user, rank, time, proof) VALUES (@id, @user, @rank, @time, @proof);')
+  client.setElytraOne = sql.prepare('INSERT OR REPLACE INTO elytraone (user, rank, time, proof) VALUES (@user, @rank, @time, @proof);')
 
   const tablefunhouseone = sql.prepare('SELECT count(*) FROM sqlite_master WHERE type=\'table\' AND name = \'funhouseone\';').get()
   if (!tablefunhouseone['count(*)']) {
@@ -37,12 +37,14 @@ client.on('ready',()=>{
     sql.pragma('journal_mode = wal')
   }
   client.getFunhouseOne = sql.prepare('SELECT * FROM funhouseone WHERE user = ?')
-  client.setFunhouseOne = sql.prepare('INSERT OR REPLACE INTO funhouseone (id, user, rank, time, proof) VALUES (@id, @user, @rank, @time, @proof);')
+  client.setFunhouseOne = sql.prepare('INSERT OR REPLACE INTO funhouseone (user, rank, time, proof) VALUES (@user, @rank, @time, @proof);')
 })
 
 client.on('message', message => {
-  if (!message.content.startsWith(process.env.PREFIX) || message.author.bot) return
+  if (!message.content.startsWith(process.env.PREFIX)) return
   message.delete(1000)
+  message.author.bot
+
   const args = message.content.slice(process.env.PREFIX.length).split(/ +/)
   const commandName = args.shift().toLowerCase()
 
@@ -50,6 +52,14 @@ client.on('message', message => {
     || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))
 
   if (!command) return
+
+  if (!command.botAllowed && message.author.bot) {
+    return message.reply('Bots cant execute this command')
+      .then(msg => {
+        msg.delete(5000)
+      })
+  }
+
   if (command.guildOnly && message.channel.type !== 'text') {
     return message.reply('I can\'t execute that command inside DMs!')
       .then(msg => {
