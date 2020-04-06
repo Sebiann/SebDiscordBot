@@ -2,8 +2,8 @@ require('dotenv').config()
 
 const Discord = require('discord.js')
 const fs = require('fs')
-const SQLite = require('better-sqlite3')
-const sql = new SQLite('./realms.sqlite')
+// const SQLite = require('better-sqlite3')
+// const sql = new SQLite('./IDK.sqlite')
 
 const client = new Discord.Client()
 
@@ -11,33 +11,19 @@ client.commands = new Discord.Collection()
 const cooldowns = new Discord.Collection()
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
+const musiccommandFiles = fs.readdirSync('./music-commands').filter(file => file.endsWith('.js'))
 
 for (const file of commandFiles) {
   const command = require(`./commands/${file}`)
   client.commands.set(command.name, command)
 }
+for (const file of musiccommandFiles) {
+  const musiccommand = require(`./music-commands/${file}`)
+  client.musiccommands.set(musiccommand.name, musiccommand)
+}
 
 client.on('ready',()=>{
   console.log(`Logged in and ready to be used.. use "${process.env.PREFIX}help".`)
-  const tableelytraone = sql.prepare('SELECT count(*) FROM sqlite_master WHERE type=\'table\' AND name = \'elytraone\';').get()
-  if (!tableelytraone['count(*)']) {
-    sql.prepare('CREATE TABLE elytraone (id INTEGER PRIMARY KEY AUTOINCREMENT, user TEXT, rank INTEGER, time INTEGER, proof TEXT);').run()
-    sql.prepare('CREATE UNIQUE INDEX idx_elytraone_id ON elytraone (id);').run()
-    sql.pragma('synchronous = 1')
-    sql.pragma('journal_mode = wal')
-  }
-  client.getElytraOne = sql.prepare('SELECT * FROM elytraone WHERE user = ?')
-  client.setElytraOne = sql.prepare('INSERT OR REPLACE INTO elytraone (user, rank, time, proof) VALUES (@user, @rank, @time, @proof);')
-
-  const tablefunhouseone = sql.prepare('SELECT count(*) FROM sqlite_master WHERE type=\'table\' AND name = \'funhouseone\';').get()
-  if (!tablefunhouseone['count(*)']) {
-    sql.prepare('CREATE TABLE funhouseone (id INTEGER PRIMARY KEY AUTOINCREMENT, user TEXT, rank INTEGER, time INTEGER, proof TEXT);').run()
-    sql.prepare('CREATE UNIQUE INDEX idx_funhouseone_id ON funhouseone (id);').run()
-    sql.pragma('synchronous = 1')
-    sql.pragma('journal_mode = wal')
-  }
-  client.getFunhouseOne = sql.prepare('SELECT * FROM funhouseone WHERE user = ?')
-  client.setFunhouseOne = sql.prepare('INSERT OR REPLACE INTO funhouseone (user, rank, time, proof) VALUES (@user, @rank, @time, @proof);')
 })
 
 client.on('message', message => {
@@ -58,6 +44,7 @@ client.on('message', message => {
       .then(msg => {
         msg.delete(5000)
       })
+      
   }
 
   if (command.guildOnly && message.channel.type !== 'text') {
