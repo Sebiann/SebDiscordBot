@@ -20,12 +20,12 @@
   },
   "homepage": "https://github.com/Sebiann/SebDiscordBot#readme",
   "dependencies": {
-    "better-sqlite3": "^5.4.3",
-    "discord.js": "^11.4.2",
+    "better-sqlite3": "^6.0.1",
+    "discord.js": "^12.1.1",
     "dotenv": "^8.2.0",
-    "node-gyp": "^6.0.0"
+    "node-gyp": "^6.1.0"
   },
   "devDependencies": {
-    "eslint": "^5.16.0"
+    "eslint": "^6.8.0"
   }
 }
