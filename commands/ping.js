@@ -12,7 +12,7 @@ module.exports = {
       const latency = Date.now() - timeThen
       msg.edit(`Ping is ${latency}ms`)
         .then(msg => {
-          msg.delete(5000)
+          msg.delete({ timeout: 5000, reason: 'It had to be done.' })
         })
     })
   },

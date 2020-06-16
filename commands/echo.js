@@ -10,7 +10,7 @@ module.exports = {
   execute(message, args) {
     message.channel.send(args[0])
       .then(msg => {
-        msg.delete(5000)
+        msg.delete({ timeout: 5000, reason: 'It had to be done.' })
       })
   },
 }

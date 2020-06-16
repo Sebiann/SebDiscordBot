@@ -3,6 +3,7 @@ module.exports = {
   aliases: ['sos'],
   usage: '',
   description: 'Display Help message',
+  adminOnly: false,
   guildOnly: false,
   args: false,
   cooldown: 5,
@@ -20,14 +21,14 @@ module.exports = {
           if (message.channel.type === 'dm') return
           message.reply('I\'ve sent you a DM with all my commands!')
             .then(msg => {
-              msg.delete(5000)
+              msg.delete({ timeout: 5000, reason: 'It had to be done.' })
             })
         })
         .catch(error => {
           console.error(`Could not send help DM to ${message.author.tag}.\n`, error)
           message.reply('it seems like I can\'t DM you!')
             .then(msg => {
-              msg.delete(5000)
+              msg.delete({ timeout: 5000, reason: 'It had to be done.' })
             })
         })
     }
@@ -38,7 +39,7 @@ module.exports = {
     if (!command) {
       return message.reply('that\'s not a valid command!')
         .then(msg => {
-          msg.delete(5000)
+          msg.delete({ timeout: 5000, reason: 'It had to be done.' })
         })
     }
 
@@ -52,7 +53,7 @@ module.exports = {
 
     message.channel.send(data, { split: true })
       .then(msg => {
-        msg.delete(10000)
+        msg.delete({ timeout: 10000, reason: 'It had to be done.' })
       })
   },
 }

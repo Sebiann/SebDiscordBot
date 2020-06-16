@@ -28,7 +28,7 @@ client.on('ready',()=>{
 
 client.on('message', message => {
   if (!message.content.startsWith(process.env.PREFIX)) return
-  message.delete(1000)
+  message.delete({ timeout: 1000, reason: 'It had to be done.' })
   message.author.bot
 
   const args = message.content.slice(process.env.PREFIX.length).split(/ +/)
@@ -42,7 +42,7 @@ client.on('message', message => {
   if (!command.botAllowed && message.author.bot) {
     return message.reply('Bots cant execute this command')
       .then(msg => {
-        msg.delete(5000)
+        msg.delete({ timeout: 5000, reason: 'It had to be done.' })
       })
       
   }
@@ -50,14 +50,14 @@ client.on('message', message => {
   if (command.guildOnly && message.channel.type !== 'text') {
     return message.reply('I can\'t execute that command inside DMs!')
       .then(msg => {
-        msg.delete(5000)
+        msg.delete({ timeout: 5000, reason: 'It had to be done.' })
       })
   }
 
   if (command.adminOnly && !message.member.roles.some(role => role.name === 'King')) {
     return message.reply('No PERMS')
       .then(msg => {
-        msg.delete(5000)
+        msg.delete({ timeout: 5000, reason: 'It had to be done.' })
       })
   }
 
@@ -70,7 +70,7 @@ client.on('message', message => {
 
     return message.channel.send(reply)
       .then(msg => {
-        msg.delete(5000)
+        msg.delete({ timeout: 5000, reason: 'It had to be done.' })
       })
   }
 
@@ -89,7 +89,7 @@ client.on('message', message => {
       const timeLeft = (expirationTime - now) / 1000
       return message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`)
         .then(msg => {
-          msg.delete(5000)
+          msg.delete({ timeout: 5000, reason: 'It had to be done.' })
         })
     }
   }
@@ -103,7 +103,7 @@ client.on('message', message => {
     console.error(error)
     message.reply('there was an error trying to execute that command!')
       .then(msg => {
-        msg.delete(5000)
+        msg.delete({ timeout: 5000, reason: 'It had to be done.' })
       })
   }
 })
@@ -111,7 +111,7 @@ client.on('message', message => {
 // Create an event listener for new guild members
 client.on('guildMemberAdd', member => {
   // Send the message to a designated channel on a server:
-  const channel = member.guild.channels.find(ch => ch.name === 'welcome')
+  const channel = member.guild.channels.cache.find(ch => ch.name === 'welcome')
   // Do nothing if the channel wasn't found on this server
   if (!channel) return
   // Send the message, mentioning the member
