@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/Sebiann/SebDiscordBot#readme",
   "dependencies": {
-    "better-sqlite3": "^7.4.0",
+    "better-sqlite3": "^7.4.5",
     "discord.js": "^12.5.3",
     "dotenv": "^10.0.0",
     "node-gyp": "^8.1.0"
